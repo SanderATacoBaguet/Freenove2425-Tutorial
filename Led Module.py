@@ -5,7 +5,7 @@ import time
 # Configuration
 NUM_LEDS = 8
 PIN = 16
-DELAY = 0.05  # Shorter delay for smoother animation
+DELAY = 0.000416666666666666666666667  # Adjustable delay for smooth animation
 
 # Colors (half brightness values for RGB)
 RED = (127, 0, 0)
@@ -23,35 +23,24 @@ def set_leds(index, color=OFF):
     np.write()
     time.sleep(DELAY)
 
-def run_pattern(color, repetitions=1, pattern='full_circle'):
+def loop_pattern(color, repetitions=1):
     """
-    Runs an LED pattern.
+    Runs the loop pattern where the light moves sequentially from 0 to 7,
+    wraps back to 0, and repeats the pattern.
     :param color: The color for the LEDs.
-    :param repetitions: Number of times to repeat the pattern.
-    :param pattern: The pattern type ('full_circle', 'half_circle', 'back_and_forth').
+    :param repetitions: Number of times to repeat the loop.
     """
     for _ in range(repetitions):
-        if pattern == 'full_circle':
-            for i in range(NUM_LEDS):
-                set_leds(i, color)
-            for i in range(NUM_LEDS - 1, -1, -1):
-                set_leds(i, color)
+        # Move from LED 0 to 7
+        for i in range(NUM_LEDS):
+            set_leds(i, color)
+        
+        # Loop back to LED 0
+        set_leds(0, color)
 
-        elif pattern == 'half_circle':
-            for i in range(NUM_LEDS // 2):
-                set_leds(i, color)
-            for i in range(NUM_LEDS // 2 - 1, -1, -1):
-                set_leds(i, color)
-
-        elif pattern == 'back_and_forth':
-            for i in range(NUM_LEDS):
-                set_leds(i, color)
-            for i in range(NUM_LEDS - 2, 0, -1):
-                set_leds(i, color)
-
-        else:
-            print("Error: Unsupported pattern type.")
-            return
+        # Move again from LED 1 to 7
+        for i in range(1, NUM_LEDS):
+            set_leds(i, color)
 
 def turn_off_leds():
     """Turns off all LEDs."""
@@ -61,20 +50,10 @@ def turn_off_leds():
 
 # Example usage:
 while True:
-    # Full circle twice for each color
-    run_pattern(RED, repetitions=2, pattern='full_circle')
-    run_pattern(GREEN, repetitions=2, pattern='full_circle')
-    run_pattern(BLUE, repetitions=2, pattern='full_circle')
-
-    # Half circle four times for each color
-    run_pattern(RED, repetitions=4, pattern='half_circle')
-    run_pattern(GREEN, repetitions=4, pattern='half_circle')
-    run_pattern(BLUE, repetitions=4, pattern='half_circle')
-
-    # Back and forth twice for each color
-    run_pattern(RED, repetitions=2, pattern='back_and_forth')
-    run_pattern(GREEN, repetitions=2, pattern='back_and_forth')
-    run_pattern(BLUE, repetitions=2, pattern='back_and_forth')
+    # Loop pattern twice for each color
+    loop_pattern(RED, repetitions=1000)
+    loop_pattern(GREEN, repetitions=2)
+    loop_pattern(BLUE, repetitions=2)
 
     # Optional pause after completing the full sequence
     time.sleep(2)
