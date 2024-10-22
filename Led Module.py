@@ -5,7 +5,7 @@ import time
 # Configuration
 NUM_LEDS = 8
 PIN = 16
-DELAY = 0.000416666666666666666666667  # Adjustable delay for smooth animation
+DELAY = 0.00416666666666666666666667  # Adjustable delay for smooth animation
 
 # Colors (half brightness values for RGB)
 RED = (127, 0, 0)
@@ -51,13 +51,13 @@ def turn_off_leds():
 # Example usage:
 while True:
     # Loop pattern twice for each color
-    loop_pattern(RED, repetitions=1000)
-    loop_pattern(GREEN, repetitions=2)
-    loop_pattern(BLUE, repetitions=2)
+    loop_pattern(RED, repetitions=10)
+    loop_pattern(GREEN, repetitions=10)
+    loop_pattern(BLUE, repetitions=10)
 
     # Optional pause after completing the full sequence
-    time.sleep(2)
+    time.sleep(0.001)
 
     # Turn off all LEDs before repeating the sequence
     turn_off_leds()
-    time.sleep(1)
+    time.sleep(0.001)
